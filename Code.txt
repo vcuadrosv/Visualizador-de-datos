@@ -1,0 +1,62 @@
+DROP DATABASE Dispositivos;
+
+CREATE DATABASE Dispositivos;
+USE Dispositivos;
+
+CREATE TABLE Dispositivos (
+    id_dispositivo INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    tipo VARCHAR(50),
+    estado ENUM('activo', 'inactivo') DEFAULT 'activo',
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Ubicaciones (
+    id_ubicacion INT PRIMARY KEY AUTO_INCREMENT,
+    id_dispositivo INT NOT NULL,
+    latitud DECIMAL(10, 7) NOT NULL,
+    longitud DECIMAL(10, 7) NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_dispositivo) REFERENCES Dispositivos(id_dispositivo) ON DELETE CASCADE
+);
+
+CREATE TABLE Mediciones (
+    id_medicion INT PRIMARY KEY AUTO_INCREMENT,
+    id_dispositivo INT NOT NULL,
+    tipo_medicion ENUM('temperatura', 'humedad') NOT NULL,
+    valor DECIMAL(10, 2) NOT NULL,
+    unidad VARCHAR(10), -- °C para temperatura, % para humedad
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_dispositivo) REFERENCES Dispositivos(id_dispositivo) ON DELETE CASCADE
+);
+
+-- Insertar dispositivos aleatorios
+INSERT INTO Dispositivos (nombre, descripcion, tipo, estado) VALUES
+('Sensor 1', 'Sensor de temperatura en la sala', 'sensor', 'activo'),
+('Sensor 2', 'Sensor de humedad en el patio', 'sensor', 'activo'),
+('Cámara 1', 'Cámara de seguridad en la entrada', 'cámara', 'inactivo'),
+('Sensor 3', 'Sensor de temperatura en la cocina', 'sensor', 'activo');
+
+-- Insertar ubicaciones aleatorias
+INSERT INTO Ubicaciones (id_dispositivo, latitud, longitud) VALUES
+(1, 4.6097100, -74.0817500), -- Bogotá
+(2, 3.4516400, -76.5319800), -- Cali
+(3, 6.2518400, -75.5635900), -- Medellín
+(4, 2.9273000, -75.2818900); -- Neiva
+
+-- Insertar mediciones aleatorias
+INSERT INTO Mediciones (id_dispositivo, tipo_medicion, valor, unidad) VALUES
+(1, 'temperatura', 22.5, '°C'),
+(1, 'humedad', 60.0, '%'),
+(2, 'temperatura', 30.1, '°C'),
+(2, 'humedad', 70.5, '%'),
+(3, 'temperatura', 25.0, '°C'),
+(3, 'humedad', 55.2, '%'),
+(4, 'temperatura', 28.7, '°C'),
+(4, 'humedad', 65.4, '%');
+
+-- Verificar los datos insertados
+SELECT * FROM Dispositivos;
+SELECT * FROM Ubicaciones;
+SELECT * FROM Mediciones;
