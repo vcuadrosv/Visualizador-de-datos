@@ -11,7 +11,7 @@ port = 3000
 db_config = {
     "host": "localhost",
     "user": "root",
-    "password": "admin",
+    "password": "Admin123!",
     "database": "Dispositivos"
 }
 
