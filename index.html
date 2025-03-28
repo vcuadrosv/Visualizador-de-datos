@@ -23,7 +23,7 @@
         }).addTo(map);
 
         // Obtener los dispositivos de la API Flask
-        fetch("http://127.0.0.1:3000/api/dispositivos") // Asegúrate de usar la IP correcta
+        fetch("http://ec2-3-19-77-188.us-east-2.compute.amazonaws.com:3000/api/dispositivos") // Asegúrate de usar la IP correcta
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
